@@ -1,33 +1,24 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
-const galleryRef = document.querySelector(".gallery");
-const cardsMarkup = createMarkup(galleryItems);
+let galleryEl = document.querySelector(".gallery");
+galleryEl.classList.add("gallery");
 
+let galleryList = ``;
 
-function onClickEvent(event) {
-    event.preventDefault();
+function initGallery() {
 
-    const lightbox = new SimpleLightbox('.gallery a', { 
-    captionData: "alt",
-    captionDelay: 250,
+    galleryItems.forEach(element => {
+         galleryList += `<a class="gallery__item" href="${element.original}">
+                        <img class="gallery__image" src="${element.preview}" alt="${element.description}" />
+                        </a>`;
     });
-    
-    if(event.target.nodeName !== "IMG") {
-        return
-   }
-    lightbox.open();
-}
+    galleryEl.innerHTML = galleryList;
 
-galleryRef.addEventListener("click", onClickEvent);
-    function createMarkup(galleryItems) {
-    return galleryItems.map(({ preview, original, description }) => {
-        return`
-        <a class="gallery__item" href="${original}">
-  <img class="gallery__image" src="${preview}" alt="${description}" />
-</a>`;}).join(" ");
+    let lightbox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: 250
+    });
+
 };
 
-console.log(cardsMarkup);
-galleryRef.insertAdjacentHTML("beforeend", cardsMarkup);
-
-console.log(galleryItems);
+initGallery();
